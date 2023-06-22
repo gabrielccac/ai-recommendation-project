@@ -3,9 +3,12 @@ import { useState } from 'react';
 // import { Search } from 'lucide-react';
 import { Container } from './styles';
 
-export function SearchBar() {
-  const [search, setSearch] = useState('');
+interface SearchBarProps {
+  search: string;
+  setSearch: (search: string) => void;
+}
 
+export function SearchBar({search, setSearch} : SearchBarProps) {
   return (
     <Container>
       <div className='search-container'>

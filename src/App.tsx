@@ -1,3 +1,5 @@
+import { useState, useRef, useMemo } from 'react';
+
 import { GlobalStyle } from './styles/global';
 
 import { Sidenav } from './components/Sidenav';
@@ -12,7 +14,7 @@ const recommendations = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
   },
   {
-    title: 'Horro Movies Recommendations',
+    title: 'Horror Movies Recommendations',
     description:
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
   },
@@ -28,7 +30,14 @@ const recommendations = [
   },
 ];
 
+const searchResults = 'lorem';
+
 function App() {
+  const [search, setSearch] = useState('');
+  const [input, setInput] = useState('');
+
+  const memoizedSideNav = useMemo(() => <Sidenav />, []);
+
   return (
     <>
       <GlobalStyle />
@@ -44,7 +53,7 @@ function App() {
           display: 'flex',
           gap: '1.5rem',
         }}>
-        <Sidenav />
+        {memoizedSideNav}
         <div
           className='RC-container'
           style={{
@@ -53,19 +62,41 @@ function App() {
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
-            overflow: 'auto',
+            // overflowY: 'auto',
           }}>
-          <SearchBar />
-          {recommendations.slice(0, 4).map((recommendation, i) => (
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+          />
+          {recommendations
+            .slice(0, 4)
+            .filter((recommendation) => {
+              return (
+                recommendation.title.toLowerCase().includes(search.toLowerCase()) ||
+                recommendation.description.toLowerCase().includes(search.toLowerCase())
+              );
+            })
+            .map((recommendation, i) => (
+              <li key={i}>
+                <RecommendationCard
+                  title={recommendation.title}
+                  text={recommendation.description}
+                />
+              </li>
+            ))}
+          {/* {recommendations.slice(0, 4).map((recommendation, i) => (
             <li key={i}>
               <RecommendationCard
                 title={recommendation.title}
                 text={recommendation.description}
               />
             </li>
-          ))}
+          ))} */}
         </div>
-        <ChatWindow />
+        <ChatWindow
+          input={input}
+          setInput={setInput}
+        />
       </div>
     </>
   );

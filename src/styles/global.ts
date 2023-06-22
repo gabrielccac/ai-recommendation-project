@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
     --clr-primary: #202329;
     --clr-secondary: #2E343D;
+    --clr-tertiary: #3E444D;
 
     --clr-accent: #FF6565;
     --clr-hover: #FF9B9B;
@@ -51,6 +52,8 @@ export const GlobalStyle = createGlobalStyle`
     display: grid;
     place-content: center;
 
+    background-color: var(--clr-backscreen);
+    
     height: 100vh;
     width: 100%;
   }

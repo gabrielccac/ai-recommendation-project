@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export const Container = styled.div`
   padding: 1.5rem;
@@ -11,7 +11,7 @@ export const Container = styled.div`
   align-items: center;
   gap: 1.25rem;
 
-  transition: background-color 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   .icon {
     width: 1.5rem;
@@ -36,6 +36,7 @@ export const Container = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: #37393d;
+    /* background-color: #37393d; */
+    box-shadow: 0 0 0 1px var(--clr-secondary);
   }
 `;

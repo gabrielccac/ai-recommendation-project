@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import sendIcon from '../../assets/send.svg';
 import { Container } from './styles';
@@ -9,9 +9,12 @@ import { AIResponse } from '../AIResponse';
 const text =
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas harum temporibus atque ullam ea repudiandae nesciunt suscipit in, minima beatae quae repellendus placeat fuga asperiores hic illum, esse officia cum.';
 
-export function ChatWindow() {
-  const [input, setInput] = useState('');
+interface ChatWindowProps {
+  input: string;
+  setInput: (input: string) => void;
+}
 
+export function ChatWindow({ input, setInput }: ChatWindowProps) {
   return (
     <Container>
       <div className='messages'>
@@ -23,9 +26,8 @@ export function ChatWindow() {
       <form
         action='#'
         className='request-container'
-        onSubmit={(e) => {
-          const [{ value }] = e.target;
-          console.log(value);
+        onSubmit={() => {
+          console.log(input);
           setInput('');
         }}>
         <input

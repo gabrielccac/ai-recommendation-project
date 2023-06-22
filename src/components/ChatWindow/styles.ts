@@ -39,9 +39,10 @@ export const Container = styled.div`
     color: var(--clr-text-primary);
     background-color: var(--clr-secondary);
 
-    &:focus {
+    transition: box-shadow 0.3s ease-in-out;
+    &:focus, &:hover {
       outline: none;
-      box-shadow: 0 0 0 1px var(--clr-text-secondary);
+      box-shadow: 0 0 0 1px var(--clr-tertiary);
     }
   }
 

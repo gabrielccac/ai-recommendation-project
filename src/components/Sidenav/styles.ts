@@ -51,12 +51,13 @@ export const Container = styled.nav`
 
   .icon--label {
     position: absolute;
+    left: 0;
     opacity: 0;
     font-size: var(--fs-lg);
     font-weight: var(--fw-medium);
     color: var(--clr-text-primary);
 
-    transition: transform 0.3s ease-in-out, opacity 0.2s ease-in-out;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   }
 
   &:hover {
@@ -73,7 +74,7 @@ export const Container = styled.nav`
     .icon--label {
       display: block;
       opacity: 1;
-      transform: translateX(2.5rem);
+      transform: translateX(4rem);
     }
   }
 `;

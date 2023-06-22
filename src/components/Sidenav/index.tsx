@@ -9,7 +9,9 @@ import { Container } from './styles';
 
 export function Sidenav() {
   return (
-    <Container className='container'>
+    <Container
+      className='container'
+      style={{ zIndex: '1' }}>
       <div className='flex-group'>
         {/* <div className='icon-container'>
           <div className='flex-flow'>
