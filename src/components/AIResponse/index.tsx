@@ -1,20 +1,17 @@
-import { Container } from './styles';
+import { Container } from "./styles";
 
-import robot from '../../assets/robot.svg';
+import robot from "../../assets/robot.svg";
 
-export function AIResponse() {
+interface AIResponseProps {
+  text: string;
+}
+
+export function AIResponse({ text }: AIResponseProps) {
   return (
     <Container>
-      <img
-        src={robot}
-        alt=''
-      />
-      <div className='message-container'>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores
-          voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut,
-          tempora dolore, culpa incidunt optio?
-        </p>
+      <img src={robot} alt="" />
+      <div className="message-container">
+        <p>{text}</p>
       </div>
     </Container>
   );

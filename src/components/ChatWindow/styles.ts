@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -59,4 +59,10 @@ export const Container = styled.div`
       filter: drop-shadow(0px 4px 12px #ff6565);
     }
   }
+`;
+
+export const Message = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;

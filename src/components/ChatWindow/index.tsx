@@ -1,13 +1,19 @@
+import { useState, useEffect } from "react";
+
+import sendIcon from "../../assets/send.svg";
+import { Container, Message } from "./styles";
 import { useState, useRef } from 'react';
 
-import sendIcon from '../../assets/send.svg';
-import { Container } from './styles';
+import { UserRequest } from "../UserRequest";
+import { AIResponse } from "../AIResponse";
 
-import { UserRequest } from '../UserRequest';
-import { AIResponse } from '../AIResponse';
+// const text =
+//   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas harum temporibus atque ullam ea repudiandae nesciunt suscipit in, minima beatae quae repellendus placeat fuga asperiores hic illum, esse officia cum.';
 
-const text =
-  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas harum temporibus atque ullam ea repudiandae nesciunt suscipit in, minima beatae quae repellendus placeat fuga asperiores hic illum, esse officia cum.';
+interface Message {
+  request: string;
+  response: string;
+}
 
 interface ChatWindowProps {
   input: string;
@@ -17,13 +23,25 @@ interface ChatWindowProps {
 export function ChatWindow({ input, setInput }: ChatWindowProps) {
   return (
     <Container>
-      <div className='messages'>
-        <UserRequest text={text} />
-        <AIResponse />
-        <UserRequest text={text} />
-        <AIResponse />
+      <div className="messages">
+        {messages.map((message, i) => {
+          return (
+            <Message key={i}>
+              <UserRequest text={message.request} />
+              <AIResponse text={message.response} />
+            </Message>
+          );
+        })}
       </div>
       <form
+        action="#"
+        className="request-container"
+        onSubmit={() => {
+          console.log(input);
+          setRequest(input);
+          setInput("");
+        }}
+      >
         action='#'
         className='request-container'
         onSubmit={() => {
@@ -31,9 +49,9 @@ export function ChatWindow({ input, setInput }: ChatWindowProps) {
           setInput('');
         }}>
         <input
-          className='request-input'
-          type='text'
-          placeholder='Ask for a recommendation...'
+          className="request-input"
+          type="text"
+          placeholder="Ask for a recommendation..."
           value={input}
           onChange={(e) => {
             e.preventDefault();
@@ -41,11 +59,8 @@ export function ChatWindow({ input, setInput }: ChatWindowProps) {
             setInput(e.target.value);
           }}
         />
-        <button className='send-button'>
-          <img
-            src={sendIcon}
-            alt='Send'
-          />
+        <button className="send-button">
+          <img src={sendIcon} alt="Send" />
         </button>
       </form>
     </Container>
