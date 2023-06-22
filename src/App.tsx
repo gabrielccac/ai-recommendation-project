@@ -29,9 +29,9 @@ const recommendations = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
   },
 ];
-
+  
 const searchResults = 'lorem';
-
+  
 function App() {
   const [search, setSearch] = useState('');
   const [input, setInput] = useState('');
