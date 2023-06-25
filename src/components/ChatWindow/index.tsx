@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-
 import sendIcon from "../../assets/send.svg";
 import { Container, Message } from "./styles";
-
 import { UserRequest } from "../UserRequest";
 import { AIResponse } from "../AIResponse";
 
@@ -16,19 +14,34 @@ interface Message {
 
 export function ChatWindow() {
   const [input, setInput] = useState("");
+  const [data, setdata] = useState({ answer: "" });
   const [request, setRequest] = useState("");
   const [messages, setMessages] = useState([
     { request: "Hello!", response: "Nahhh" },
   ]);
+  useEffect(() => {
+    if (request) {
+      console.log(data);
+      fetch("http://localhost:8000/data?text=" + request.toString() ?? "").then(
+        (res) =>
+          res.json().then((data) => {
+            // Setting a data from api
+            setdata({
+              answer: data,
+            });
+          })
+      );
+    }
+  }, [request]);
 
   useEffect(() => {
     if (request) {
       setMessages((prevMessages) => [
         ...prevMessages,
-        { request: request, response: "AI Response " + request },
+        { request: request, response: data.answer },
       ]);
     }
-  }, [request, setMessages]);
+  }, [request, setMessages, data]);
 
   return (
     <Container>
