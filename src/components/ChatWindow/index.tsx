@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import sendIcon from "../../assets/send.svg";
 import { Container, Message } from "./styles";
 import { UserRequest } from "../UserRequest";
 import { AIResponse } from "../AIResponse";
-
-// const text =
-//   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas harum temporibus atque ullam ea repudiandae nesciunt suscipit in, minima beatae quae repellendus placeat fuga asperiores hic illum, esse officia cum.';
+import axios from "axios";
+import { useIsomorphicLayoutEffect } from "framer-motion";
 
 interface Message {
   request: string;
@@ -13,39 +12,44 @@ interface Message {
 }
 
 export function ChatWindow() {
+  const messagesRef = useRef<HTMLDivElement>(null);
+
   const [input, setInput] = useState("");
   const [data, setdata] = useState({ answer: "" });
   const [request, setRequest] = useState("");
   const [messages, setMessages] = useState([
     { request: "Hello!", response: "Nahhh" },
   ]);
+
   useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/data?text=${request}`
+        );
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { request: request, response: response.data },
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (request) {
-      console.log(data);
-      fetch("http://localhost:8000/data?text=" + request.toString() ?? "").then(
-        (res) =>
-          res.json().then((data) => {
-            // Setting a data from api
-            setdata({
-              answer: data,
-            });
-          })
-      );
+      fetchData();
     }
   }, [request]);
 
-  useEffect(() => {
-    if (request) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { request: request, response: data.answer },
-      ]);
-    }
-  }, [request, setMessages, data]);
-
   return (
     <Container>
-      <div className="messages">
+      <div className="messages" ref={messagesRef}>
         {messages.map((message, i) => {
           return (
             <Message key={i}>
@@ -56,9 +60,9 @@ export function ChatWindow() {
         })}
       </div>
       <form
-        action="#"
         className="request-container"
-        onSubmit={() => {
+        onSubmit={(e) => {
+          e.preventDefault();
           console.log(input);
           setRequest(input);
           setInput("");

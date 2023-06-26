@@ -13,13 +13,24 @@ export const Container = styled.div`
   justify-content: end;
   gap: 1.5rem;
 
-  overflow-y: hidden;
-
   .messages {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    scroll-behavior: auto;
+
+    /* hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
     justify-content: end;
     gap: 1.5rem;
+  }
+
+  .messages::-webkit-scrollbar {
+    width: 0;
+    height: 0;
   }
 
   .request-container {
@@ -40,7 +51,8 @@ export const Container = styled.div`
     background-color: var(--clr-secondary);
 
     transition: box-shadow 0.3s ease-in-out;
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       outline: none;
       box-shadow: 0 0 0 1px var(--clr-tertiary);
     }
@@ -65,4 +77,5 @@ export const Message = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
 `;
