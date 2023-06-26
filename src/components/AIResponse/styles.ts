@@ -11,5 +11,7 @@ export const Container = styled.div`
     border-radius: 1rem 1rem 1rem 0.25rem;
     color: var(--clr-text-primary);
     background-color: var(--clr-background);
+    position: relative;
+    z-index: 2;
   }
 `;
