@@ -16,7 +16,7 @@ export function ChatWindow() {
   const [input, setInput] = useState("");
   const [request, setRequest] = useState("");
   const [messages, setMessages] = useState([
-    { request: "Hello!", response: "Nahhh" },
+    { request: "Hello!", response: "Hello! What can I do for you today?" },
   ]);
 
   useEffect(() => {
