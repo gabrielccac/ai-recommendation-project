@@ -4,7 +4,6 @@ import { Container, Message } from "./styles";
 import { UserRequest } from "../UserRequest";
 import { AIResponse } from "../AIResponse";
 import axios from "axios";
-import { useIsomorphicLayoutEffect } from "framer-motion";
 
 interface Message {
   request: string;
@@ -15,7 +14,6 @@ export function ChatWindow() {
   const messagesRef = useRef<HTMLDivElement>(null);
 
   const [input, setInput] = useState("");
-  const [data, setdata] = useState({ answer: "" });
   const [request, setRequest] = useState("");
   const [messages, setMessages] = useState([
     { request: "Hello!", response: "Nahhh" },

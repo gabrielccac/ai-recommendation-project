@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
@@ -6,7 +6,7 @@ export const Container = styled.div`
   gap: 1rem;
 
   .message-container {
-    width: 70%;
+    max-width: 70%;
     padding: 0.75rem 1rem;
     border-radius: 1rem 1rem 1rem 0.25rem;
     color: var(--clr-text-primary);
