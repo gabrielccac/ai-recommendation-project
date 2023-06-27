@@ -11,7 +11,7 @@ interface Message {
 }
 
 export function ChatWindow() {
-  const messagesRef = useRef<HTMLDivElement>(null);
+  const scrollEnd = useRef<HTMLDivElement>(null);
 
   const [input, setInput] = useState("");
   const [request, setRequest] = useState("");
@@ -19,10 +19,19 @@ export function ChatWindow() {
     { request: "Hello!", response: "Hello! What can I do for you today?" },
   ]);
 
-  useEffect(() => {
-    if (messagesRef.current) {
-      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  const updateScroll = () => {
+    if (scrollEnd.current) {
+      scrollEnd.current.scrollIntoView({ behavior: "auto" });
     }
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      updateScroll();
+    });
+    setTimeout(() => {
+      clearInterval(intervalId);
+    }, 7000);
   }, [messages]);
 
   useEffect(() => {
@@ -47,7 +56,7 @@ export function ChatWindow() {
 
   return (
     <Container>
-      <div className="messages" ref={messagesRef}>
+      <div className="messages">
         {messages.map((message, i) => {
           return (
             <Message key={i}>
@@ -56,6 +65,7 @@ export function ChatWindow() {
             </Message>
           );
         })}
+        <div style={{ margin: "-1rem", height: 0 }} ref={scrollEnd}></div>
       </div>
       <form
         className="request-container"
