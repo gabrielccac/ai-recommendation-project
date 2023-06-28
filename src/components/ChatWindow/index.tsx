@@ -65,7 +65,7 @@ export function ChatWindow() {
             </Message>
           );
         })}
-        <div style={{ margin: "-1rem", height: 0 }} ref={scrollEnd}></div>
+        <div style={{ margin: "-1rem 0 0 0", height: 0 }} ref={scrollEnd}></div>
       </div>
       <form
         className="request-container"

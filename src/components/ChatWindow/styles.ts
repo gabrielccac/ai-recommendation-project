@@ -18,6 +18,7 @@ export const Container = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     overflow-y: scroll;
+    overflow-x: hidden;
     scroll-behavior: auto;
 
     /* hide scrollbar */
