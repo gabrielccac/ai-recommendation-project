@@ -38,6 +38,6 @@ export const Container = styled.div`
   &:hover {
     cursor: pointer;
     /* background-color: #37393d; */
-    box-shadow: 0 0 0 1px var(--clr-text-primary);
+    box-shadow: 0 0 3px 1px var(--clr-text-primary);
   }
 `;

@@ -96,6 +96,7 @@ function App() {
             display: "flex",
             flexDirection: "column",
             gap: "1rem",
+            alignItems: "center",
           }}
         >
           <SearchBar search={search} setSearch={setSearch} />
