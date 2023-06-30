@@ -19,6 +19,7 @@ export function AIResponse({ text }: AIResponseProps) {
           style={{ fontSize: "1rem" }}
           cursor={false}
           omitDeletionAnimation={true}
+          preRenderFirstString={true}
         />
       </div>
     </Container>

@@ -6,44 +6,66 @@ import { AIResponse } from "../AIResponse";
 import axios from "axios";
 
 interface Message {
-  request: string;
-  response: string;
+  content: string;
+  bot_response: string;
 }
 
-export function ChatWindow() {
+interface ChatWindowProps {
+  currentChat: number | null;
+  messages: Message[] | null;
+  setMessages: React.Dispatch<React.SetStateAction<Message[] | null>>;
+  toggleReload: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function ChatWindow({
+  currentChat,
+  messages,
+  setMessages,
+  toggleReload,
+}: ChatWindowProps) {
   const scrollEnd = useRef<HTMLDivElement>(null);
 
   const [input, setInput] = useState("");
   const [request, setRequest] = useState("");
-  const [messages, setMessages] = useState([
-    { request: "Hello!", response: "Hello! What can I do for you today?" },
-  ]);
-
-  const updateScroll = () => {
-    if (scrollEnd.current) {
-      scrollEnd.current.scrollIntoView({ behavior: "auto" });
-    }
-  };
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      updateScroll();
-    });
-    setTimeout(() => {
-      clearInterval(intervalId);
-    }, 7000);
-  }, [messages]);
+    const changeTitle = async (title: string) => {
+      try {
+        const response = await axios.patch(
+          `http://localhost:8000/api/chat/${currentChat}`,
+          {
+            title: title,
+          }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (request && request.includes("movie:")) {
+      changeTitle(request.slice(6, request.length));
+      toggleReload((prev) => {
+        return !prev;
+      });
+    }
+  }, [currentChat, request, toggleReload]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/data?text=${request}`
-        );
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { request: request, response: response.data },
-        ]);
+        if (currentChat) {
+          const response = await axios.post(
+            `http://localhost:8000/api/chat/${currentChat}/messages`,
+            {
+              content: request,
+            }
+          );
+          if (messages) {
+            setMessages([...messages, response.data]);
+          } else {
+            setMessages(response.data);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
@@ -52,26 +74,27 @@ export function ChatWindow() {
     if (request) {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request]);
 
   return (
     <Container>
       <div className="messages">
-        {messages.map((message, i) => {
-          return (
-            <Message key={i}>
-              <UserRequest text={message.request} />
-              <AIResponse text={message.response} />
-            </Message>
-          );
-        })}
+        {messages &&
+          messages.map((message, i) => {
+            return (
+              <Message key={i}>
+                <UserRequest text={message.content} />
+                <AIResponse text={message.bot_response} />
+              </Message>
+            );
+          })}
         <div style={{ margin: "-1rem 0 0 0", height: 0 }} ref={scrollEnd}></div>
       </div>
       <form
         className="request-container"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(input);
           setRequest(input);
           setInput("");
         }}
@@ -83,7 +106,6 @@ export function ChatWindow() {
           value={input}
           onChange={(e) => {
             e.preventDefault();
-
             setInput(e.target.value);
           }}
         />

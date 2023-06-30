@@ -1,101 +1,127 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from "react";
 
-import { GlobalStyle } from './styles/global';
+import { GlobalStyle } from "./styles/global";
 
-import { Sidenav } from './components/Sidenav';
-import { RecommendationCard } from './components/RecommendationCard';
-import { SearchBar } from './components/SearchBar';
-import { ChatWindow } from './components/ChatWindow';
+import { Sidenav } from "./components/Sidenav";
+import { RecommendationCard } from "./components/RecommendationCard";
+import { SearchBar } from "./components/SearchBar";
+import { ChatWindow } from "./components/ChatWindow";
+import axios from "axios";
 
-const recommendations = [
-  {
-    title: 'Romance Movies Recommendations',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
-  },
-  {
-    title: 'Horror Movies Recommendations',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
-  },
-  {
-    title: 'Action Movies Recommendations',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
-  },
-  {
-    title: 'Movies like The Godfather',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero autem vitae dolores voluptatum odio quibusdam dignissimos odit quam dicta aliquam tempore sequi saepe ipsa ut, tempora dolore, culpa incidunt optio?',
-  },
-];
-  
-const searchResults = 'lorem';
-  
+import { AllChats } from "./styles/App";
+
+interface Message {
+  content: string;
+  bot_response: string;
+}
+interface Chat {
+  id: number;
+  title: string;
+  created_at: string;
+}
+
 function App() {
-  const [search, setSearch] = useState('');
-  const [input, setInput] = useState('');
+  const [allChats, setAllChats] = useState<Chat[]>([]);
+  const [search, setSearch] = useState("");
+  const [currentChat, setCurrentChat] = useState<number | null>(null);
+  const [messages, setMessages] = useState<Message[] | null>(null);
+  const [reload, toggleReload] = useState(false);
+
+  const createNewChat = useCallback(async () => {
+    try {
+      const response = await axios.post(`http://localhost:8000/api/chat/`);
+
+      setCurrentChat(response.data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    createNewChat();
+  }, [createNewChat]);
 
   const memoizedSideNav = useMemo(() => <Sidenav />, []);
+
+  useEffect(() => {
+    const getAllChats = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/chat/`);
+        setAllChats(response.data.reverse());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllChats();
+  }, [currentChat, reload]);
+
+  useEffect(() => {
+    const getChatMessages = async () => {
+      try {
+        if (currentChat) {
+          const response = await axios.get(
+            `http://localhost:8000/api/chat/${currentChat}/messages`
+          );
+          setMessages(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getChatMessages();
+  }, [currentChat]);
 
   return (
     <>
       <GlobalStyle />
       <div
-        className='app-container'
+        className="app-container"
         style={{
-          position: 'relative',
-          height: '90vh',
-          padding: '2rem',
-          backgroundColor: 'var(--clr-background)',
-          width: '90%',
-          borderRadius: '2rem',
-          display: 'flex',
-          gap: '1.5rem',
-        }}>
+          position: "relative",
+          height: "90vh",
+          padding: "2rem",
+          backgroundColor: "var(--clr-background)",
+          width: "90%",
+          borderRadius: "2rem",
+          display: "flex",
+          gap: "1.5rem",
+        }}
+      >
         {memoizedSideNav}
         <div
-          className='RC-container'
+          className="RC-container"
           style={{
-            width: '40rem',
-            marginLeft: '6rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            // overflowY: 'auto',
-          }}>
-          <SearchBar
-            search={search}
-            setSearch={setSearch}
-          />
-          {recommendations
-            .slice(0, 4)
-            .filter((recommendation) => {
-              return (
-                recommendation.title.toLowerCase().includes(search.toLowerCase()) ||
-                recommendation.description.toLowerCase().includes(search.toLowerCase())
-              );
-            })
-            .map((recommendation, i) => (
-              <li key={i}>
-                <RecommendationCard
-                  title={recommendation.title}
-                  text={recommendation.description}
-                />
-              </li>
-            ))}
-          {/* {recommendations.slice(0, 4).map((recommendation, i) => (
-            <li key={i}>
-              <RecommendationCard
-                title={recommendation.title}
-                text={recommendation.description}
-              />
-            </li>
-          ))} */}
+            width: "40rem",
+            marginLeft: "6rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          <SearchBar search={search} setSearch={setSearch} />
+          <AllChats>
+            {allChats
+              .filter((chat) => {
+                return chat.title.toLowerCase().includes(search.toLowerCase());
+              })
+              .map((chat, i) => (
+                <li key={i}>
+                  <RecommendationCard
+                    title={chat.title}
+                    text={chat.created_at.slice(0, 10)}
+                    id={chat.id}
+                    currentChat={currentChat}
+                    setCurrentChat={setCurrentChat}
+                  />
+                </li>
+              ))}
+          </AllChats>
         </div>
         <ChatWindow
-          input={input}
-          setInput={setInput}
+          messages={messages}
+          setMessages={setMessages}
+          currentChat={currentChat}
+          toggleReload={toggleReload}
         />
       </div>
     </>

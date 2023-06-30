@@ -1,7 +1,8 @@
-import styled, { keyframes, css } from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 1.5rem;
+  height: auto;
   border-radius: 1rem;
   background-color: var(--clr-primary);
 
@@ -37,6 +38,6 @@ export const Container = styled.div`
   &:hover {
     cursor: pointer;
     /* background-color: #37393d; */
-    box-shadow: 0 0 0 1px var(--clr-secondary);
+    box-shadow: 0 0 0 1px var(--clr-text-primary);
   }
 `;
