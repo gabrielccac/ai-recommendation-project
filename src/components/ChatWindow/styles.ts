@@ -11,7 +11,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: end;
-  gap: 1.5rem;
+  /* gap: 1.5rem; */
 
   .messages {
     display: flex;
@@ -69,7 +69,7 @@ export const Container = styled.div`
     transition: filter 0.3s ease-in-out;
     &:hover {
       cursor: pointer;
-      filter: drop-shadow(0px 4px 12px #ff6565);
+      filter: drop-shadow(0px 0px 4px #ff6565);
     }
   }
 `;

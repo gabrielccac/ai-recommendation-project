@@ -28,6 +28,25 @@ export function ChatWindow({
   const [input, setInput] = useState("");
   const [request, setRequest] = useState("");
 
+  const updateScroll = () => {
+    if (scrollEnd.current) {
+      scrollEnd.current.scrollIntoView({ behavior: "auto" });
+    }
+  };
+
+  useEffect(() => {
+    updateScroll();
+  }, [messages]);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     updateScroll();
+  //   });
+  //   setTimeout(() => {
+  //     clearInterval(intervalId);
+  //   }, 4000);
+  // }, []);
+
   useEffect(() => {
     const changeTitle = async (title: string) => {
       try {
@@ -85,11 +104,14 @@ export function ChatWindow({
             return (
               <Message key={i}>
                 <UserRequest text={message.content} />
-                <AIResponse text={message.bot_response} />
+                <AIResponse
+                  text={message.bot_response}
+                  lastMsg={i === messages.length - 1}
+                />
               </Message>
             );
           })}
-        <div style={{ margin: "-1rem 0 0 0", height: 0 }} ref={scrollEnd}></div>
+        <div style={{ height: 0 }} ref={scrollEnd}></div>
       </div>
       <form
         className="request-container"
