@@ -25,8 +25,8 @@ export function ChatWindow({
 }: ChatWindowProps) {
   const scrollEnd = useRef<HTMLDivElement>(null);
 
-  const [input, setInput] = useState("");
-  const [request, setRequest] = useState("");
+  const [input, setInput] = useState<string>("");
+  const [request, setRequest] = useState<string>("");
 
   const updateScroll = () => {
     if (scrollEnd.current) {
@@ -39,17 +39,22 @@ export function ChatWindow({
   }, [messages]);
 
   // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     updateScroll();
-  //   });
-  //   setTimeout(() => {
-  //     clearInterval(intervalId);
-  //   }, 4000);
-  // }, []);
+  //   setRequest("");
+  // }, [currentChat]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      updateScroll();
+    });
+    setTimeout(() => {
+      clearInterval(intervalId);
+    }, 4000);
+  }, []);
 
   useEffect(() => {
     const changeTitle = async (title: string) => {
       try {
+        if (!currentChat) return;
         const response = await axios.patch(
           `http://localhost:8000/api/chat/${currentChat}`,
           {
@@ -67,7 +72,8 @@ export function ChatWindow({
         return !prev;
       });
     }
-  }, [currentChat, request, toggleReload]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [request, toggleReload]);
 
   useEffect(() => {
     const fetchData = async () => {

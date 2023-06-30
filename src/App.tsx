@@ -41,6 +41,10 @@ function App() {
     createNewChat();
   }, [createNewChat]);
 
+  useEffect(() => {
+    setMessages(null);
+  }, [currentChat]);
+
   const memoizedSideNav = useMemo(() => <Sidenav />, []);
 
   useEffect(() => {

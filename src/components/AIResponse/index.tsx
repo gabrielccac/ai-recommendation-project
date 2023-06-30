@@ -8,7 +8,7 @@ interface AIResponseProps {
   lastMsg: boolean;
 }
 
-export function AIResponse({ text }: AIResponseProps) {
+export function AIResponse({ text, lastMsg }: AIResponseProps) {
   return (
     <Container>
       <img src={robot} alt="" />
@@ -20,7 +20,7 @@ export function AIResponse({ text }: AIResponseProps) {
           style={{ fontSize: "1rem" }}
           cursor={false}
           omitDeletionAnimation={true}
-          preRenderFirstString={true}
+          preRenderFirstString={lastMsg ? false : true}
         />
       </div>
     </Container>
