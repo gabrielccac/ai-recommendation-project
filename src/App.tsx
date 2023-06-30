@@ -27,6 +27,7 @@ function App() {
   const [messages, setMessages] = useState<Message[] | null>(null);
   const [reload, toggleReload] = useState(false);
 
+  console.log(messages);
   const createNewChat = useCallback(async () => {
     try {
       const response = await axios.post(`http://localhost:8000/api/chat/`);
@@ -104,6 +105,21 @@ function App() {
           }}
         >
           <SearchBar search={search} setSearch={setSearch} />
+          <button
+            style={{
+              cursor: "pointer",
+              width: "calc(100% - 2px)",
+              color: "var(--clr-text-primary)",
+            }}
+            className="send-button"
+            onClick={() => {
+              if (currentChat) {
+                createNewChat();
+              }
+            }}
+          >
+            Novo chat
+          </button>
           <AllChats>
             {allChats
               .filter((chat) => {

@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -70,4 +70,26 @@ export const GlobalStyle = createGlobalStyle`
   li {
     list-style: none;
   }
+
+  button {
+    background-color: var(--clr-accent);
+    padding: 0.75rem 1rem;
+
+    border: none;
+    border-radius: 0.75rem;
+
+
+    transition: all 1ms ease-out;
+    &:hover {
+      cursor: pointer;
+      filter: drop-shadow(0px 0px 4px #ff6565);
+    }
+
+    
+
+  }
+  button:active {
+    transform: translateY(3px);
+  filter: drop-shadow(0px 0px 4px #ff6565);
+}
 `;

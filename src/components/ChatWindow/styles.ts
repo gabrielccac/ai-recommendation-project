@@ -59,7 +59,7 @@ export const Container = styled.div`
     }
   }
 
-  button {
+  /* button {
     background-color: var(--clr-accent);
     padding: 0.75rem 1rem;
 
@@ -71,7 +71,7 @@ export const Container = styled.div`
       cursor: pointer;
       filter: drop-shadow(0px 0px 4px #ff6565);
     }
-  }
+  } */
 `;
 
 export const Message = styled.div`
