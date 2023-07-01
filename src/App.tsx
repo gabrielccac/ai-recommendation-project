@@ -8,7 +8,9 @@ import { SearchBar } from "./components/SearchBar";
 import { ChatWindow } from "./components/ChatWindow";
 import axios from "axios";
 
-import { AllChats } from "./styles/App";
+import trash from "./assets/trash.svg";
+
+import { AllChats, Buttons } from "./styles/App";
 
 interface Message {
   content: string;
@@ -27,7 +29,15 @@ function App() {
   const [messages, setMessages] = useState<Message[] | null>(null);
   const [reload, toggleReload] = useState(false);
 
-  console.log(messages);
+  const deleteAllChats = useCallback(async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/api/chat/`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   const createNewChat = useCallback(async () => {
     try {
       const response = await axios.post(`http://localhost:8000/api/chat/`);
@@ -58,7 +68,7 @@ function App() {
       }
     };
     getAllChats();
-  }, [currentChat, reload]);
+  }, [currentChat, reload, messages]);
 
   useEffect(() => {
     const getChatMessages = async () => {
@@ -105,21 +115,44 @@ function App() {
           }}
         >
           <SearchBar search={search} setSearch={setSearch} />
-          <button
-            style={{
-              cursor: "pointer",
-              width: "calc(100% - 2px)",
-              color: "var(--clr-text-primary)",
-            }}
-            className="send-button"
-            onClick={() => {
-              if (currentChat) {
-                createNewChat();
-              }
-            }}
-          >
-            Novo chat
-          </button>
+          <Buttons>
+            <button
+              style={{
+                cursor: "pointer",
+                width: "80%",
+                color: "var(--clr-text-primary)",
+              }}
+              className="send-button"
+              onClick={() => {
+                if (currentChat) {
+                  createNewChat();
+                }
+              }}
+            >
+              Novo chat
+            </button>
+            <button
+              style={{
+                cursor: "pointer",
+                width: "calc(18% - 2px)",
+                color: "var(--clr-text-primary)",
+              }}
+              className="send-button"
+              onClick={() => {
+                if (currentChat) {
+                  deleteAllChats();
+                  createNewChat();
+                }
+              }}
+            >
+              <img
+                height="40px"
+                src={trash}
+                alt="Delete icon"
+                style={{ margin: "0" }}
+              />
+            </button>
+          </Buttons>
           <AllChats>
             {allChats
               .filter((chat) => {

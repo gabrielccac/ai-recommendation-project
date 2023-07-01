@@ -48,8 +48,8 @@ export function ChatWindow({
     });
     setTimeout(() => {
       clearInterval(intervalId);
-    }, 4000);
-  }, []);
+    }, 7000);
+  }, [messages]);
 
   useEffect(() => {
     const changeTitle = async (title: string) => {
@@ -67,7 +67,7 @@ export function ChatWindow({
       }
     };
     if (request && request.includes("movie:")) {
-      changeTitle(request.slice(6, request.length));
+      changeTitle(request.slice(6, request.length).toUpperCase());
       toggleReload((prev) => {
         return !prev;
       });

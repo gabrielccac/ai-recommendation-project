@@ -10,3 +10,13 @@ export const AllChats = styled.div`
   gap: 1.5rem;
   border-radius: 1.25rem;
 `;
+
+export const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 2%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+`;

@@ -75,9 +75,14 @@ export const GlobalStyle = createGlobalStyle`
     background-color: var(--clr-accent);
     padding: 0.75rem 1rem;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
     border-radius: 0.75rem;
 
+    height: 100%;
 
     transition: all 1ms ease-out;
     &:hover {
