@@ -73,7 +73,8 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     background-color: var(--clr-accent);
-    padding: 0.75rem 1rem;
+
+    min-width: 3rem;
 
     display: flex;
     align-items: center;

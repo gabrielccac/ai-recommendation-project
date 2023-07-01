@@ -129,7 +129,7 @@ function App() {
                 }
               }}
             >
-              Novo chat
+              New Chat
             </button>
             <button
               style={{
@@ -146,7 +146,7 @@ function App() {
               }}
             >
               <img
-                height="40px"
+                height="32px"
                 src={trash}
                 alt="Delete icon"
                 style={{ margin: "0" }}
