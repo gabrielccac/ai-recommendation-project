@@ -90,9 +90,6 @@ export const GlobalStyle = createGlobalStyle`
       cursor: pointer;
       filter: drop-shadow(0px 0px 4px #ff6565);
     }
-
-    
-
   }
   button:active {
     transform: translateY(3px);
