@@ -34,9 +34,9 @@ export function ChatWindow({
     }
   };
 
-  useEffect(() => {
-    updateScroll();
-  }, [messages]);
+  // useEffect(() => {
+  //   updateScroll();
+  // }, [messages]);
 
   // useEffect(() => {
   //   setRequest("");
@@ -48,7 +48,7 @@ export function ChatWindow({
     });
     setTimeout(() => {
       clearInterval(intervalId);
-    }, 7000);
+    }, 2000);
   }, [messages]);
 
   useEffect(() => {

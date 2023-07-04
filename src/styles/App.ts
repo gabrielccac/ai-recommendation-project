@@ -14,9 +14,9 @@ export const AllChats = styled.div`
 export const Buttons = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 2%;
+  gap: 3%;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 99%;
   height: 3rem;
 `;
