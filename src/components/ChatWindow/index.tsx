@@ -34,14 +34,6 @@ export function ChatWindow({
     }
   };
 
-  // useEffect(() => {
-  //   updateScroll();
-  // }, [messages]);
-
-  // useEffect(() => {
-  //   setRequest("");
-  // }, [currentChat]);
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       updateScroll();
