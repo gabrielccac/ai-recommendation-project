@@ -40,7 +40,12 @@ export function Sidenav() {
         <div className="icon-container">
           <div className="flex-flow">
             <img src={upgradeIcon} alt="Upgrade" className="icon" />
-            <span className="icon--label">Upgrade</span>
+            <a
+              href="jan.html"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <span className="icon--label">Upgrade</span>
+            </a>
           </div>
         </div>
         <div className="icon-container">
